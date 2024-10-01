@@ -1,0 +1,167 @@
+---
+title: "RWorksheet_Arlante#3a"
+author: "Stephanie Lois Amber Arlante"
+date: "2024-10-01"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+#Using Vectors
+
+#1.LETTERS
+
+#a. You need to produce a vector that contains the first 11 letters.
+
+first11 <- LETTERS[1:11]
+(first11)
+```
+
+
+
+```{r}
+
+#b. Produce a vector that contains the odd numbered letters.
+
+oddletters <- LETTERS[seq(1,26, by = 2)]
+(oddletters)
+```
+
+
+```{r}
+
+#c. Produce a vector that contains the vowels
+
+vowels <- LETTERS[c(1, 5, 9, 15, 21)]
+(vowels)
+```
+
+
+{r}
+
+#d. Produce a vector that contains the last 5 lowercase letters.
+
+last5lower <- letters[22:26]
+(last5lower)
+
+
+
+```{r}
+
+#e. Produce a vector that contains letters between 15 to 24 letters in lowercase.
+
+lower15_24 <- letters[15:24]
+(lower15_24)
+```
+
+
+```{r}
+
+#2. Vector of Temperature.
+
+
+#a. Character of cities
+
+city <- c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban", "Samal Island", "Davao City")
+
+(city)
+```
+
+
+```{r}
+
+#b. Vectors of Temperature 
+
+temp <- c(42, 39, 34, 34, 30, 27)
+(temp)
+```
+
+
+```{r}
+
+#c. Data frame to combine the city and the temp
+
+citytemp <- data.frame(City = city, Tempreture = temp)
+
+(citytemp)
+
+```
+
+```{r}
+
+#d. rename the columns using the names() function
+
+names(citytemp) <- c("City", "Tempreture")
+(citytemp)
+
+```
+
+{r}
+
+#e. Print the structure by using str() function.
+
+str(citytemp) 
+#outputs the structure of citytemp
+
+
+
+```{r}
+
+#f. The content of row 3 and row 4.
+
+(citytemp[3:4, ])
+```
+
+
+```{r}
+
+#g. Display the city with highest temperature and the city with the lowest temperature.
+
+(citytemp[which.max(citytemp$Tempreture), ])
+
+
+(citytemp[which.min(citytemp$Tempreture), ])
+```
+
+
+```{r}
+#Using Matrices
+
+# row = 2
+matrix(c(5,6,7,4,3,2,1,2,3,7,8,9),nrow = 2)
+
+## [,1] [,2] [,3] [,4] [,5] [,6]
+## [1,] 5 7 3 1 3 8
+## [2,] 6 4 2 2 7 9
+# row = 3 and column = 2
+
+matrix(data = c(3,4,5,6,7,8),3,2)
+## [,1] [,2]
+## [1,] 3 6
+## [2,] 4 7
+## [3,] 5 8
+
+# creating a diagonal matrix where x value will always be 1
+diag(1,nrow = 6,ncol = 5)
+
+## [,1] [,2] [,3] [,4] [,5]
+## [1,] 1 0 0 0 0
+## [2,] 0 1 0 0 0
+## [3,] 0 0 1 0 0
+## [4,] 0 0 0 1 0
+## [5,] 0 0 0 0 1
+## [6,] 0 0 0 0 0
+
+diag(6)
+## [,1] [,2] [,3] [,4] [,5] [,6]
+## [1,] 1 0 0 0 0 0
+## [2,] 0 1 0 0 0 0
+## [3,] 0 0 1 0 0 0
+## [4,] 0 0 0 1 0 0
+## [5,] 0 0 0 0 1 0
+## [6,] 0 0 0 0 0 1
+```
