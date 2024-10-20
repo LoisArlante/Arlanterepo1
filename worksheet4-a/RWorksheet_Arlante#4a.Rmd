@@ -1,0 +1,181 @@
+---
+title: "RWorksheet_Arlante#4a"
+author: "Stephanie Lois Amber Arlante"
+date: "2024-10-20"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# 1. Shoe size, height, and gender data
+
+shoe_size <- c(6.5, 9.0, 8.5, 8.5, 10.5, 7.0, 9.0, 9.5, 10.0, 7.5, 
+               8.0, 8.5, 10.0, 8.5, 9.0, 12.0, 8.5, 13.0, 11.5, 8.5,
+               5.0, 10.0, 6.5, 8.5, 10.5, 8.5, 10.0, 11.0, 9.0, 13.0)
+
+height <- c(66.0, 68.0, 64.5, 65.0, 70.0, 64.0, 71.0, 70.0, 70.5, 71.0,
+            67.0, 65.0, 72.0, 66.0, 67.0, 74.5, 69.0, 77.0, 72.0, 59.0,
+            62.0, 72.0, 64.0, 67.0, 69.0, 70.0, 75.0, 70.0, 69.0, 70.0)
+
+gender <- c("F", "F", "F", "F", "M", "F", "F", "M", "F", "M", 
+            "M", "F", "M", "M", "M", "M", "F", "M", "M", "F",
+            "F", "M", "F", "M", "F", "M", "M", "M", "M", "M")
+
+# a. Describe the dataDescribe the data
+df <- data.frame(Shoe_Size = shoe_size, Height = height, Gender = gender)
+summary(df)
+
+# b. A subsets for males and females with their corresponding shoe size and height
+males <- subset(df, Gender == "M")
+females <- subset(df, Gender == "F")
+
+males
+females
+
+# c. Find the mean of shoe size and height of the respondents
+mean_shoe_size <- mean(df$Shoe_Size)
+mean_height <- mean(df$Height)
+
+mean_shoe_size
+mean_height
+
+# d. Is there a relationship between shoe size and height?
+# A positive correlation between shoe size and height suggests that taller individuals tend to have larger shoe sizes, while a near-zero correlation indicates no significant relationship.
+
+correlation <- cor(shoe_size, height)
+correlation
+```
+
+```{r}
+# 2. Construct a character vector of months and convert it to a factor
+
+months <- c("March", "April", "January", "November", "January", "September", 
+            "October", "September", "November", "August", "January", "November", 
+            "November", "February", "May", "August", "July", "December", 
+            "August", "August", "September", "November", "February", "April")
+
+factor_months_vector <- factor(months)
+factor_months_vector
+summary(months)
+summary(factor_months_vector)
+```
+
+```{r}
+# 3. Create a vector and factor for the direction table and reorder it
+direction <- c("East", "West", "North")
+frequency <- c(1, 4, 3)
+factor_direction <- factor(direction, levels = c("East", "West", "North"))
+factor_direction
+```
+
+```{r}
+# 4. Creating a vector for Direction
+direction <- c("East", "West", "North")
+frequency <- c(1, 4, 3)
+factor_direction <- factor(direction, levels = c("East", "West", "North"))
+
+print(factor_direction)
+
+print(frequency)
+```
+
+```{r}
+# 5. Import the excel file into the environment
+#a. Import the excel file into the Environment Pane using read.table() function
+data <- read.table("import_march.csv", header = TRUE, sep = ",")
+print(head(data)) 
+
+#b. View the dataset
+data <- read.table("import_march.csv", header = TRUE, sep = ",")
+print(head(data))
+```
+
+```{r}
+# 6. Exhaustive search function
+exhaustive_search <- function() {
+  chosen_number <- as.integer(readline(prompt = "Choose a number between 1 and 50: "))
+  
+  if (is.na(chosen_number)) {
+    print("Invalid input. Please enter a number.")
+  } else if (chosen_number < 1 || chosen_number > 50) {
+    print("The number selected is beyond the range of 1 to 50")
+  } else if (chosen_number == 20) {
+    print("TRUE")
+  } else {
+    print(paste("The selected number is:", chosen_number))
+  }
+}
+
+exhaustive_search()
+```
+
+```{r}
+# 7. Minimum number of bills function
+calculate_minimum_bills <- function(price) {
+  if (price %% 50 != 0) {
+    stop("The price must be divisible by 50.")
+  }
+  
+  bills <- c(1000, 500, 200, 100, 50)
+  
+  total_bills <- 0
+  
+  for (bill in bills) {
+    if (price >= bill) {
+      count <- price %/% bill  # Number of this bill
+      total_bills <- total_bills + count  # Update total bills
+      price <- price %% bill  # Remaining price to pay
+    }
+  }
+  
+  cat("Minimum number of bills needed:", total_bills, "\n")
+}
+
+# Test the function with a sample price
+calculate_minimum_bills(1700) 
+```
+
+```{r}
+# 8. Math scores dataframe
+name <- c("Annie", "Thea", "Steve", "Hanna")
+grade1 <- c(85, 65, 75, 95)
+grade2 <- c(65, 75, 55, 75)
+grade3 <- c(85, 90, 80, 100)
+grade4 <- c(100, 90, 85, 90)
+
+grades_df <- data.frame(name, grade1, grade2, grade3, grade4)
+print(grades_df)
+```
+```{}
+# 8b. Average score of students with an average score over 90
+for (i in 1:nrow(grades_df)) {
+  avg_score <- sum(grades_df[i, 2:5]) / 4
+  if (avg_score > 90) {
+    print(paste(grades_df$name[i], "’s average grade this semester is", avg_score))
+  }
+}
+```
+```{r}
+# 8c. Tests where the average score is less than 80
+for (i in 2:5) {
+  avg_test <- mean(grades_df[, i])
+  if (avg_test < 80) {
+    print(paste("The test", i - 1, "was difficult."))
+  }
+}
+
+```
+```{r}
+# d. Highest score above 90 for students
+for (i in 1:nrow(grades_df)) {
+  max_score <- max(grades_df[i, 2:5])
+  if (max_score > 90) {
+    print(paste(grades_df$name[i], "’s highest grade this semester is", max_score))
+  }
+}
+```
