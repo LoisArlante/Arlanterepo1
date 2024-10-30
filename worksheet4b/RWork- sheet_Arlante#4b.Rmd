@@ -1,0 +1,256 @@
+---
+title: "RWorksheet_Arlante#4b.Rmd"
+author: "Stephanie Lois Amber Arlante"
+date: "2024-10-30"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+#1. 
+vectorA <- c(1, 2, 3, 4, 5)
+matrix_result <- matrix(0, nrow = 5, ncol = 5)
+
+for (i in 1:5) {
+  matrix_result[i, ] <- abs(vectorA - i)
+}
+print(matrix_result)
+
+```
+```{r}
+#2.
+for (i in 1:5) {
+  cat(rep("*", i), "\n")
+}
+
+```
+```{r}
+#3.
+start <- 5  # Change this number as needed
+
+a <- 0
+b <- 1
+
+fibonacci_sequence <- c()
+
+for (i in 1:500) {
+  if (b >= start) {
+    fibonacci_sequence <- c(fibonacci_sequence, b)
+  }
+  
+  next_term <- a + b
+  
+  if (next_term > 500) {
+    break
+  }
+  
+  a <- b
+  b <- next_term
+}
+
+cat("Fibonacci sequence starting from", start, "up to 500:\n")
+print(fibonacci_sequence)
+
+```
+```{r}
+#a.
+shoes <- read.csv("shoes.csv")
+
+head(shoes)
+
+```
+```{r}
+#b.
+male_data <- subset(shoes, Gender == "M")
+female_data <- subset(shoes, Gender == "F")
+
+num_male <- nrow(male_data)
+num_female <- nrow(female_data)
+
+cat("Number of Male observations:", num_male, "\n")
+cat("Number of Female observations:", num_female, "\n")
+
+```
+```{r}
+#c. 
+num_male <- nrow(subset(shoes, Gender == "M"))
+num_female <- nrow(subset(shoes, Gender == "F"))
+
+gender_counts <- c(num_male, num_female)
+
+gender_labels <- c("Male", "Female")
+colors <- c("skyblue", "pink")
+
+barplot(
+  gender_counts,
+  names.arg = gender_labels,
+  col = colors,
+  main = "Number of Males and Females in Household Data",
+  xlab = "Gender",
+  ylab = "Count",
+  ylim = c(0, max(gender_counts) + 2)
+)
+legend("topright", legend = gender_labels, fill = colors)
+
+```
+```{r}
+#5. 
+expenses <- c(60, 10, 5, 25)
+categories <- c("Food", "Electricity", "Savings", "Miscellaneous")
+colors <- c("lightblue", "orange", "lightgreen", "pink")
+percentages <- round(expenses / sum(expenses) * 100, 1)
+labels <- paste(categories, percentages, "%")
+pie(
+  expenses,
+  labels = labels,
+  col = colors,
+  main = "Dela Cruz Family Monthly Expenditure"
+)
+```
+```{r}
+#6a.
+# Load the iris dataset
+data(iris)
+
+# Check the structure of the dataset
+str(iris)
+
+#Description of the Output:The iris dataset is one of the most widely used datasets for machine learning and statistical analysis. It contains 150 observations of iris flowers with 5 variables:
+
+#1.Sepal.Length: The length of the sepal in centimeters (numeric).
+#2.Sepal.Width: The width of the sepal in centimeters (numeric).
+#3.Petal.Length: The length of the petal in centimeters (numeric).
+#4.Petal.Width: The width of the petal in centimeters (numeric).
+#5.Species: A categorical variable (factor) representing the flower species, with three possible values:
+#-setosa
+#-versicolor
+#-virginica
+#Each observation corresponds to a unique flower, and the measurements capture the physical dimensions of the flower’s sepals and petals. The dataset is often used for classification tasks because the species variable can be predicted based on the four numeric measurements.
+
+```
+```{r}
+#6b.
+data(iris)
+
+mean_values <- colMeans(iris[, c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")])
+
+mean_values
+
+#Result: The iris dataset is built into R, so you can use it directly and the colMeans() function computes the mean for each of the specified columns.The result is stored in the mean_values object.
+
+```
+```{r}
+#6c.
+data(iris)
+
+species_count <- table(iris$Species)
+
+colors <- c("red", "green", "blue")
+
+pie(species_count, 
+    main = "Species Distribution in Iris Dataset", 
+    col = colors, 
+    labels = paste(names(species_count), "\n", species_count))
+
+legend("topright", legend = names(species_count), fill = colors)
+
+```
+```{r}
+#6d.
+data(iris)
+
+setosa <- subset(iris, Species == "setosa")
+versicolor <- subset(iris, Species == "versicolor")
+virginica <- subset(iris, Species == "virginica")
+
+# Display the last six rows of each species
+last_six_setosa <- tail(setosa, 6)
+last_six_versicolor <- tail(versicolor, 6)
+last_six_virginica <- tail(virginica, 6)
+
+# Print the results
+cat("Last six rows of Setosa:\n")
+print(last_six_setosa)
+
+cat("\nLast six rows of Versicolor:\n")
+print(last_six_versicolor)
+
+cat("\nLast six rows of Virginica:\n")
+print(last_six_virginica)
+
+```
+```{r}
+#6e.
+data(iris)
+
+iris$Species <- as.factor(iris$Species)
+
+colors <- c("red", "green", "blue")
+pch_values <- c(16, 17, 18)  # Different pch symbols
+
+plot(iris$Sepal.Length, iris$Sepal.Width,
+     main = "Iris Dataset", 
+     sub = "Sepal Width and Length",
+     xlab = "Sepal Length", 
+     ylab = "Sepal Width", 
+     col = iris$Species,  # Color by species
+     pch = as.numeric(iris$Species),  # Point shapes by species
+     cex = 1.5)  # Size of points
+
+legend("topright", legend = levels(iris$Species), 
+       col = colors, pch = pch_values, title = "Species")
+
+
+#6f. Interpretation
+
+#1. Species Separation:
+#Setosa: The red dots represent the Setosa species, and they are clustered together in the lower left part of the plot. This shows that Setosa has the smallest sepals (the leaf-like parts of the flower) compared to the other two species.
+
+#Versicolor: The green triangles represent Versicolor. These points are spread out in the middle of the plot, indicating that their sepal sizes are larger than Setosa but smaller than Virginica.
+#Virginica: The blue diamonds represent Virginica, and they are located in the upper right area. This means that Virginica has the largest sepals of all three species.
+
+#2. Trends:
+#You can see a clear trend where both the sepal length and width get larger from Setosa to Virginica. This means that, generally, as the size of the sepal increases, both its length and width tend to increase as well.
+
+#3. Variability:
+#The spread of the points shows that there is some variation in the sepal sizes within each species. For example, Versicolor has a wider range of sizes compared to Setosa, which is tightly grouped together.
+
+#4. Implications for Classification:
+#The clear separation of the Setosa species suggests that it could be easily identified just by looking at its sepal size. However, since Versicolor and Virginica overlap a bit, we might need to look at other characteristics (like petal size) to tell them apart more accurately.
+
+#Conclusion
+#In summary, the scatterplot shows how sepal length and width differ among the three species of irises. It helps us understand that Setosa is quite different from the others, while Versicolor and Virginica are more similar but can still be distinguished with some effort. This kind of visual representation is useful in biology for studying and classifying different species of plants.
+
+#I gained help from ChatGPT in typing and creating this text. I can assure that I understand the context. 
+```
+```{r}
+#Basic Cleaning and Transformation of Objects.
+
+#7a.
+
+
+```
+```{r}
+
+
+```
+```{r}
+
+
+```
+```{r}
+
+
+```
+```{r}
+
+
+```
+```{r}
+
+
+```
