@@ -1,0 +1,323 @@
+---
+title: "RWorksheet_Arlante#4c.Rmd"
+author: "Stephanie Lois Amber Arlante"
+date: "2024-10-31"
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+#1a.
+
+df <- read.csv("mpg.csv")
+
+head(df)
+
+str(df)
+
+categorical_vars <- names(df)[sapply(df, is.factor) | sapply(df, is.character)]
+cat("Categorical Variables:", categorical_vars, "\n")
+
+continuous_vars <- names(df)[sapply(df, is.numeric) & !sapply(df, is.integer)]
+cat("Continuous Variables:", continuous_vars, "\n")
+
+#b.Which variables from mpg dataset are categorical?
+#Based on the dataset description, the categorical variables are likely to be:
+#manufacturer: Manufacturer name
+#model: Model name
+#trans: Type of transmission
+#drv: Type of drive train (f = front-wheel drive, r = rear-wheel drive, 4 = 4wd)
+#fl: Fuel type
+#class: Type of car
+
+#c. Which are continuous variables?
+#The continuous variables are:
+
+#displ: Engine displacement, in litres
+#year: Year of manufacture
+#cty: City miles per gallon
+#hwy: Highway miles per gallon
+#cyl: Number of cylinders
+
+```
+```{r}
+#2.
+library(dplyr)
+
+manufacturer_counts <- df %>%
+  group_by(manufacturer) %>%
+  summarize(unique_models = n_distinct(model)) %>%
+  arrange(desc(unique_models))
+
+manufacturer_with_most_models <- manufacturer_counts[1, ]
+print(manufacturer_with_most_models)
+
+model_counts <- df %>%
+  group_by(model) %>%
+  summarize(variations = n()) %>%
+  arrange(desc(variations))
+
+model_with_most_variations <- model_counts[1, ]
+print(model_with_most_variations)
+
+```
+```{r}
+#2a. 
+library(dplyr)
+
+manufacturer_counts <- df %>%
+  group_by(manufacturer) %>%
+  summarize(unique_models = n_distinct(model)) %>%
+  arrange(desc(unique_models))
+
+# Display the result
+manufacturer_counts
+```
+```{r}
+#2b.
+barplot(
+  manufacturer_counts$unique_models,
+  names.arg = manufacturer_counts$manufacturer,
+  las = 2,
+  col = "skyblue",
+  main = "Number of Unique Models by Manufacturer",
+  ylab = "Unique Models",
+  xlab = "Manufacturer"
+)
+
+```
+```{r}
+#2.p2
+
+library(ggplot2)
+
+ggplot(mpg, aes(x = model, y = manufacturer)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + # Rotate x-axis labels for better readability
+  labs(title = "Scatter Plot of Car Models by Manufacturer", 
+       x = "Car Model", 
+       y = "Manufacturer")
+
+#a.prt2 The command ggplot(mpg, aes(model, manufacturer)) + geom_point() generates a scatter plot using the mpg dataset from the ggplot2 package in R. Here’s a breakdown of what this visualization
+
+```
+```{r}
+#b.prt2 This modification will spread out the points slightly, making it easier to see the distribution of models across manufacturers.
+
+library(ggplot2)
+
+ggplot(mpg, aes(x = model, y = manufacturer)) + 
+  geom_jitter(width = 0.2, height = 0.1) +  
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  labs(title = "Jittered Scatter Plot of Car Models by Manufacturer", 
+       x = "Car Model", 
+       y = "Manufacturer")
+
+```
+```{r}
+#3. 
+library(ggplot2)
+library(dplyr)  
+
+top_20_mpg <- mpg %>%
+  arrange(desc(year)) %>%  
+  head(20)  
+
+ggplot(top_20_mpg, aes(x = as.factor(year), y = model)) + 
+  geom_point() +  # Use points to represent data
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +  
+  labs(title = "Top 20 Car Models by Year", 
+       x = "Year", 
+       y = "Car Model")
+```
+```{r}
+#4. 
+library(dplyr)
+
+car_count_per_model <- mpg %>%
+  group_by(model) %>%           
+  summarise(count = n()) %>%  
+  arrange(desc(count))         
+
+print(car_count_per_model)
+
+```
+```{r}
+#4a.
+
+library(ggplot2)
+library(dplyr)
+
+top_20_mpg <- mpg %>%
+  arrange(desc(year)) %>%  
+  head(20)  
+
+
+ggplot(top_20_mpg, aes(x = reorder(model, -year), fill = manufacturer)) + 
+  geom_bar() +  # Create a bar plot
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +  # Rotate x-axis labels for better readability
+  labs(title = "Top 20 Car Models by Year", 
+       x = "Car Model", 
+       y = "Count of Cars") +
+  scale_fill_brewer(palette = "Set3")  
+
+```
+```{r}
+#4b. 
+library(ggplot2)
+library(dplyr)
+
+top_20_mpg <- mpg %>%
+  arrange(desc(year)) %>%  
+  head(20)
+
+
+ggplot(top_20_mpg, aes(x = reorder(model, -year), fill = manufacturer)) + 
+  geom_bar() +  
+  coord_flip() +  
+  labs(title = "Top 20 Car Models by Year", 
+       x = "Count of Cars", 
+       y = "Car Model") +
+  scale_fill_brewer(palette = "Set3") +  
+  theme_minimal() + 
+  theme(legend.title = element_blank())  
+
+```
+```{r}
+#5. 
+library(ggplot2)
+
+ggplot(mpg, aes(x = cyl, y = displ, color = displ)) + 
+  geom_point(size = 3) +  
+  labs(title = "Relationship between No. of Cylinders and Engine Displacement", 
+       x = "Number of Cylinders", 
+       y = "Engine Displacement") +
+  scale_color_gradient(low = "blue", high = "red") +  
+  theme_minimal()  
+
+#5a. How would you describe its relationship?
+#the scatter plot reveals a general positive correlation between the number of cylinders and engine displacement, with certain clusters and variations that reflect the diversity in vehicle design and engineering. This relationship helps illustrate how manufacturers balance performance, size, and efficiency in their vehicle offerings.
+```
+```{r}
+#6.prt1
+library(ggplot2)
+
+ggplot(mpg, aes(x = displ, y = hwy, color = displ)) + 
+  geom_point(size = 3) +  
+  labs(title = "Relationship between Engine Displacement and Highway MPG", 
+       x = "Engine Displacement (L)", 
+       y = "Highway MPG") +
+  scale_color_gradient(low = "blue", high = "red") + 
+  theme_minimal()  
+
+```
+```{r}
+#6a.
+
+traffic_data <- read.csv("traffic.csv")
+
+
+num_observations <- nrow(traffic_data)
+num_observations
+
+
+variables <- colnames(traffic_data)
+variables
+
+```
+```{r}
+#6b.
+traffic_data <- read.csv("traffic.csv")
+junctions_list <- split(traffic_data, traffic_data$Junction)
+junctions_list[[1]]
+
+```
+```{r}
+#6c. 
+library(ggplot2)
+traffic_data <- read.csv("traffic.csv")
+traffic_data$DateTime <- as.POSIXct(traffic_data$DateTime, format="%Y-%m-%d %H:%M:%S")
+ggplot(traffic_data, aes(x = DateTime, y = Vehicles)) +
+  geom_line() +
+  facet_wrap(~ Junction) +
+  labs(title = "Vehicle Counts at Each Junction Over Time", x = "DateTime", y = "Vehicles") +
+  theme_minimal()
+
+```
+```{r}
+#7
+
+library(readxl)
+alexa_file <- read_excel("alexa_file.xlsx")
+num_observations <- nrow(alexa_file)
+num_columns <- ncol(alexa_file)
+num_observations
+num_columns
+
+```
+```{r}
+#7b. 
+library(dplyr)
+library(readxl)
+data <- read_excel("alexa_file.xlsx")
+variation_totals <- data %>%
+  group_by(variation) %>%
+  summarise(total = n())
+print(variation_totals)
+
+
+```
+```{r}
+#7c. 
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+data <- read_excel("alexa_file.xlsx")
+variation_totals <- data %>%
+  group_by(variation) %>%
+  summarise(total = n())
+
+ggplot(variation_totals, aes(x = variation, y = total, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Count of Each Variation", x = "Variation", y = "Total Count") +
+  theme_minimal()
+
+```
+```{r}
+#7d. 
+data <- data %>%
+  group_by(date) %>%
+  summarise(verified_count = sum(feedback, na.rm = TRUE))
+
+ggplot(data, aes(x = date, y = verified_count)) +
+  geom_line(color = "blue") +
+  labs(title = "Verified Reviews Over Time", x = "Date", y = "Count of Verified Reviews") +
+  theme_minimal()
+
+```
+```{r}
+
+```
+```{r}
+#7e.
+library(dplyr)
+library(ggplot2)
+library(readxl)
+
+data <- read_excel("alexa_file.xlsx")
+
+variation_rating <- data %>%
+  group_by(variation) %>%
+  summarise(avg_rating = mean(rating, na.rm = TRUE))
+
+ggplot(variation_rating, aes(x = variation, y = avg_rating, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Rating per Variation", x = "Variation", y = "Average Rating") +
+  theme_minimal()
+
+
+```
